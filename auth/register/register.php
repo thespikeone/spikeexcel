@@ -43,7 +43,7 @@ $erreur="";
             $ins=$pdo->prepare("insert into users(login,name,username,password,vkey) values(?,?,?,?,?)");
             if($ins->execute(array($login,$name,$username,md5($pass),$vkey))){
                 $emails = "contact@spikeexcel.ga";
-                $name = "Support Ultimate-Team";
+                $name = "Support SpikeExcel-Team";
                 $to  = $login; // notez la virgule
 
                 // Sujet

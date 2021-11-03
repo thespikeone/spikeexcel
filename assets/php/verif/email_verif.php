@@ -87,7 +87,7 @@ if(!empty($vkey)){
             <div class="body">
                 <h2>Email Confirmation</h2>
                 <strong>Hi '." $username".',</strong>
-                <p> Thanks for registering an account With Ultimate Team! 
+                <p> Thanks for registering an account With SpikeExcel Team! 
                     Before we get started, we\'ll need to verify your account.</p>
                <p>link: <a href='."https://www.spikeexcel.ga/auth/register/verify.php?vkey=$vkey".'>Verify Email</a></p>
              <a href='."https://www.spikeexcel.ga/auth/register/verify.php?vkey=$vkey".'> <button>Verify Email</button></a>
