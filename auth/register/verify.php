@@ -39,7 +39,7 @@ if(isset($_GET['vkey'])){
     <div class="container">
         <div class="row">
             <div class="col-md-4 offset-md-4 form">
-                <form action="https://ultimate-team.ga/" method="POST" autocomplete="off">
+                <form action="https://spikeexcel.ga/" method="POST" autocomplete="off">
                     <h2 class="text-center">Verification</h2>
                   <?php if(!empty($verifi)){ ?>
                         <div class="alert alert-success text-center">
@@ -57,7 +57,7 @@ if(isset($_GET['vkey'])){
                     
                     <div class="form-group">
                        
-                    <a href="https://ultimate-team.ga/"><button class="form-control button"  >Login</button></a>
+                    <a href="https://spikeexcel.ga/"><button class="form-control button"  >Login</button></a>
                     </div>
                 </form>
             </div>
