@@ -89,8 +89,8 @@ if(!empty($vkey)){
                 <strong>Hi '." $username".',</strong>
                 <p> Thanks for registering an account With Ultimate Team! 
                     Before we get started, we\'ll need to verify your account.</p>
-               <p>link: <a href='."https://ultimate-team.ga/auth/register/verify.php?vkey=$vkey".'>Verify Email</a></p>
-             <a href='."https://ultimate-team.ga/auth/register/verify.php?vkey=$vkey".'> <button>Verify Email</button></a>
+               <p>link: <a href='."https://www.spikeexcel.ga/auth/register/verify.php?vkey=$vkey".'>Verify Email</a></p>
+             <a href='."https://www.spikeexcel.ga/auth/register/verify.php?vkey=$vkey".'> <button>Verify Email</button></a>
             </div>
         </main>
     </div>

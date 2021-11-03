@@ -57,10 +57,7 @@ $erreur="";
                   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
                   <title>Email Verification</title>
                   <style>
-                    /* -------------------------------------
-                        GLOBAL RESETS
-                    ------------------------------------- */
-                    
+             
                     /*All the styling goes here*/
                     
                     img {
@@ -92,16 +89,13 @@ $erreur="";
                         vertical-align: top; 
                     }
               
-                    /* -------------------------------------
-                        BODY & CONTAINER
-                    ------------------------------------- */
+                  
               
                     .body {
                       background-color: #f6f6f6;
                       width: 100%; 
                     }
               
-                    /* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */
                     .container {
                       display: block;
                       margin: 0 auto !important;
@@ -111,7 +105,7 @@ $erreur="";
                       width: 580px; 
                     }
               
-                    /* This should also be a block element, so that it will fill 100% of the .container */
+                
                     .content {
                       box-sizing: border-box;
                       display: block;
@@ -120,9 +114,6 @@ $erreur="";
                       padding: 10px; 
                     }
               
-                    /* -------------------------------------
-                        HEADER, FOOTER, MAIN
-                    ------------------------------------- */
                     .main {
                       background: #ffffff;
                       border-radius: 3px;
@@ -154,9 +145,7 @@ $erreur="";
                         text-align: center; 
                     }
               
-                    /* -------------------------------------
-                        TYPOGRAPHY
-                    ------------------------------------- */
+                
                     h1,
                     h2,
                     h3,
@@ -197,9 +186,7 @@ $erreur="";
                       text-decoration: underline; 
                     }
               
-                    /* -------------------------------------
-                        BUTTONS
-                    ------------------------------------- */
+             
                     .btn {
                       box-sizing: border-box;
                       width: 100%; }
@@ -238,10 +225,7 @@ $erreur="";
                       border-color: #3498db;
                       color: #ffffff; 
                     }
-              
-                    /* -------------------------------------
-                        OTHER STYLES THAT MIGHT BE USEFUL
-                    ------------------------------------- */
+            
                     .last {
                       margin-bottom: 0; 
                     }
@@ -297,9 +281,7 @@ $erreur="";
                       margin: 20px 0; 
                     }
               
-                    /* -------------------------------------
-                        RESPONSIVE AND MOBILE FRIENDLY STYLES
-                    ------------------------------------- */
+            
                     @media only screen and (max-width: 620px) {
                       table[class=body] h1 {
                         font-size: 28px !important;
@@ -341,10 +323,7 @@ $erreur="";
                         width: auto !important; 
                       }
                     }
-              
-                    /* -------------------------------------
-                        PRESERVE THESE STYLES IN THE HEAD
-                    ------------------------------------- */
+             
                     @media all {
                       .ExternalClass {
                         width: 100%; 
@@ -439,11 +418,9 @@ $erreur="";
                               </td>
                             </tr>
               
-                          <!-- END MAIN CONTENT AREA -->
+                     
                           </table>
-                          <!-- END CENTERED WHITE CONTAINER -->
-              
-                          <!-- START FOOTER -->
+                     
                           <div class="footer">
                             <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                               <tr>
@@ -457,7 +434,7 @@ $erreur="";
                               </tr>
                             </table>
                           </div>
-                          <!-- END FOOTER -->
+                    
               
                         </div>
                       </td>
