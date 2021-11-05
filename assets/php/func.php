@@ -4,7 +4,14 @@ function pdoConnexion(){
     return new  PDO("mysql:host=mysql-younes.alwaysdata.net;dbname=younes_spikeexcel","younes","MOLImoli1");
 }
 
+function upload(){
+    $pdo = pdoConnexion();
+    echo "test";
+    var_dump($_POST);
+    exit;
+}
 
+//function for notif confirmation email
 function confirme(){
     $pdo = pdoConnexion();
     $verif_mail = $pdo->prepare("SELECT confirme from users where login=? ");
