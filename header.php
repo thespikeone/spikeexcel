@@ -48,7 +48,7 @@ if($page_name != $index){
                             class="bi bi-chevron-down"></i></a>
                     <ul>
                         <li><a href="#">Profile</a></li>
-                        <li><a href="#">Services</a></li>
+                        <li><a href="services/services.php">Services</a></li>
                         <li><a href="#">My Folder</a></li>
                     </ul>
                 </li>
