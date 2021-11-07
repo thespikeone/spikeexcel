@@ -87,7 +87,7 @@ session_start();
                             </div>
                             <div class="form-group">
                                 <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
-                                <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
+                                <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label> <span><a href="../password/password-forgot.php" class="signup-image-link">Forgot password ?</a></a></span>
                             </div>
                             <div class="form-group form-button">
                                 <input type="submit" name="submit" id="signin" class="form-submit" />
