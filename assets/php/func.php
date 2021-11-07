@@ -390,7 +390,7 @@ function forgot_password(){
                                         <tbody>
                                           <tr>
                                             <center>
-                                            <td> <a href='."https://ultimate-team.ga/auth/password/token.php?token=$token".' target="_blank">Reset Password</a> </td>
+                                            <td> <a href='."https://spikeexcel.ga/auth/password/token.php?token=$token".' target="_blank">Reset Password</a> </td>
                                           </center>
                                           </tr>
                                         </tbody>
