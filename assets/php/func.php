@@ -27,6 +27,7 @@ function confirme(){
         }
     }
 }
+//function for change passowrd
 function verif_token(){
     $pdo = pdoConnexion();
     if (isset($_GET['token'])) {
@@ -71,7 +72,7 @@ function change_password(){
             $hashpsw = md5($_POST['password2']);
             $change = $pdo->prepare("UPDATE users Set password = '$hashpsw', token= NULL where login = '$email'");
             $change->execute();
-            $emails = "contact@ultimate-team.ga";
+            $emails = "contact@spikeexcel.ga";
             $name = "Support Ultimate-Team";
             $to  = $email; // notez la virgule
             $userl = $username;
