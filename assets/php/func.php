@@ -879,4 +879,8 @@ function forgot_password(){
     }
 }
 
+function del_notif(){
+ 
+}
+
 ?>
