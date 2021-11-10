@@ -10,6 +10,12 @@ function upload(){
     var_dump($_POST);
     exit;
 }
+//function for empty adress database
+function adress_empty(){
+  $pdo = pdoConnexion();
+  $verif_mail = $pdo->prepare("INSERT INTO `adress` (`id`, `login`, `bio`, `adress`, `country`, `street`, `postal_code`, `phone_area`, `phone_number`, `date_of_birth`) VALUES (NULL, ?, '', '', '', '', '', '', '', '')");
+  $verif_mail->execute(array($_SESSION['login']));
+}
 
 //function for notif confirmation email
 function confirme(){
