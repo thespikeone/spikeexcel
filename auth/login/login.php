@@ -16,7 +16,7 @@ session_start();
             $sel=$pdo->prepare("select * from users where login=? and password=? limit 1");
             $sel->execute(array($login,$pass));
             $user=$sel->fetchAll();
-            var_dump($_POST);
+            
              /* Stock data on session */
             if (count($user)>0) {
               $erreur="";

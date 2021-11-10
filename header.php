@@ -4,7 +4,10 @@
 
 $services = "services.php";
 $index = "index.php";
+$profile = "profile.php";
+$profile_settings = "profile_settings.php";
 $ot = "";
+
 if($page_name != $index){
     $ot = "../";
 }else{
@@ -37,18 +40,27 @@ if($page_name != $index){
 
         <nav id="navbar" class="navbar">
             <ul>
+            <?php  if($page_name == $profile || $page_name == $profile_settings){ ?>
                 <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+                <?php
+                }else{
+               ?>
+<li><a class="nav-link scrollto active" href="#hero">Home</a></li>
                 <li><a class="nav-link scrollto" href="#about">About</a></li>
                 <li><a class="nav-link scrollto" href="#services">Services</a></li>
                 <li><a class="nav-link scrollto" href="#team">Team</a></li>
 
                 <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+                <?php
+                        }
+                        ?>
+                
                 <?php  if($_SESSION['autoriser'] == "oui"){ ?>
                 <li class="dropdown"><a href="#"><span><?php echo  $_SESSION['username']; ?></span><i
                             class="bi bi-chevron-down"></i></a>
                     <ul>
-                        <li><a href="#">Profile</a></li>
-                        <li><a href="services/services.php">Services</a></li>
+                        <li><a href="<?php echo $ot; ?>profile/profile.php">Profile</a></li>
+                        <li><a href="<?php echo $ot; ?>services/services.php">Services</a></li>
                         <li><a href="#">My Folder</a></li>
                     </ul>
                 </li>
