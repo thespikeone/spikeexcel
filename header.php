@@ -78,7 +78,6 @@ if($page_name != $index){
     <!-- Vendor JS Files -->
     <script src="<?php echo $ot; ?>assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
     <script src="<?php echo $ot; ?>assets/vendor/aos/aos.js"></script>
-    <script src="<?php echo $ot; ?>assets/vendor/php-email-form/validate.js"></script>
     <script src="<?php echo $ot; ?>assets/vendor/swiper/swiper-bundle.min.js"></script>
     <script src="<?php echo $ot; ?>assets/vendor/purecounter/purecounter.js"></script>
     <script src="<?php echo $ot; ?>assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
