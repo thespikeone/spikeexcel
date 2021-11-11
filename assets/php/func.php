@@ -10,12 +10,31 @@ function upload(){
     var_dump($_POST);
     exit;
 }
+//function for empty social media database
+function social_empty(){
+  $pdo = pdoConnexion();
+  $verif_social = $pdo->prepare("INSERT INTO `social` (`id`, `login`, `website`, `github`, `twitter`, `instagram`, `facebook`) VALUES (NULL, ?, '', '', '', '', '')");
+  $verif_social->execute(array($_SESSION['login']));
+}
 //function for empty adress database
 function adress_empty(){
   $pdo = pdoConnexion();
   $verif_mail = $pdo->prepare("INSERT INTO `adress` (`id`, `login`, `bio`, `adress`, `country`, `street`, `postal_code`, `phone_area`, `phone_number`, `date_of_birth`) VALUES (NULL, ?, '', '', '', '', '', '', '', '')");
   $verif_mail->execute(array($_SESSION['login']));
 }
+//function update social media
+function social_add(){
+  $pdo = pdoConnexion();
+  $website = $_POST['website'];
+  $github = $_POST['github'];
+  $twitter = $_POST['twitter'];
+  $instagram = $_POST['instagram'];
+  $facebook = $_POST['facebook'];
+  $req = $pdo->prepare("UPDATE social SET website=?,github=?,twitter=?,instagram=?,facebook=? WHERE login = ?");
+  $req->execute(array($website,$github,$twitter,$instagram,$facebook,$_SESSION['login']));
+  header("Refresh:1");
+}
+
 //function update password security
 function update_profile_pass(){
   $pdo = pdoConnexion();
