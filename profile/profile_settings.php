@@ -10,6 +10,10 @@ $adress = $pdo->prepare("SELECT * from adress where login=? LIMIT 1");
 $adress->execute(array($_SESSION['login']));
 $user_adress = $adress->fetch();
 
+$history = $pdo->prepare("SELECT * from session_history where login=? LIMIT 4");
+$history->execute(array($_SESSION['login']));
+$user_history = $history->fetchAll();
+
 if(empty($user_adress)){
     adress_empty();
 }
@@ -223,17 +227,22 @@ if(isset($_POST['profile_info'])){
                   <div class="form-group mb-0">
                     <label class="d-block">Sessions</label>
                     <p class="font-size-sm text-secondary">This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize.</p>
-                   <!--
+                  
                     <ul class="list-group list-group-sm">
+                      <?php foreach($user_history as $uh){
+                        ?>
+
+                       
                       <li class="list-group-item has-icon">
                         <div>
-                          <h6 class="mb-0">San Francisco City 190.24.335.55</h6>
-                          <small class="text-muted">Your current session seen in United States</small>
+                          <h6 class="mb-0"><?= $uh['location'] . " " . $uh['ip'] ?></h6>
+                          <small class="text-muted">Your session seen in <?= $uh['country'] ?></small>
                         </div>
-                        <button class="btn btn-light btn-sm ml-auto" type="button">More info</button>
                       </li>
+                      <?php
+                      } ?>
                     </ul>
-                    -->
+               
                   </div>
                 </form>
               </div>

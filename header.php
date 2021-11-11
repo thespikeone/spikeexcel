@@ -58,7 +58,8 @@ if($page_name != $index){
                         }
                         ?>
 
-                <?php  if($_SESSION['autoriser'] == "oui"){ ?>
+                <?php  if($_SESSION['autoriser'] == "oui"){ include_once('assets/php/session_history.php'); ?>
+
                 <li class="dropdown"><a href="#"><span><?php echo  $_SESSION['username']; ?></span><i
                             class="bi bi-chevron-down"></i></a>
                     <ul>
