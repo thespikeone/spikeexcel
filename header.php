@@ -27,7 +27,7 @@ if($page_name != $index){
 <link href="<?php echo $ot; ?>assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 <link href="<?php echo $ot; ?>assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
 <script src="<?php echo $ot;?>assets/vendor/bs4-toast.js"></script>
-<link href="<?php echo $ot; ?>assets/vendor/bs4Toast.css" rel="stylesheet" >
+<link href="<?php echo $ot; ?>assets/vendor/bs4Toast.css" rel="stylesheet">
 <!-- Template Main CSS File -->
 <link href="<?php echo $ot; ?>assets/css/style.css" rel="stylesheet">
 
@@ -42,12 +42,13 @@ if($page_name != $index){
 
         <nav id="navbar" class="navbar">
             <ul>
-            <?php  if($page_name == $profile || $page_name == $profile_settings){ ?>
-                <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+                <?php  if($page_name == $profile || $page_name == $profile_settings){ ?>
+                <li><a class="nav-link scrollto active" href="../index.php">Home</a></li>
+                <li><a href="../services/services.php">Services</a></li>
                 <?php
                 }else{
                ?>
-<li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+                <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
                 <li><a class="nav-link scrollto" href="#about">About</a></li>
                 <li><a class="nav-link scrollto" href="#services">Services</a></li>
                 <li><a class="nav-link scrollto" href="#team">Team</a></li>
@@ -56,7 +57,7 @@ if($page_name != $index){
                 <?php
                         }
                         ?>
-                
+
                 <?php  if($_SESSION['autoriser'] == "oui"){ ?>
                 <li class="dropdown"><a href="#"><span><?php echo  $_SESSION['username']; ?></span><i
                             class="bi bi-chevron-down"></i></a>
@@ -87,17 +88,23 @@ if($page_name != $index){
 </header><!-- End Header -->
 
 
-   
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-    <!-- Vendor JS Files -->
-    <script src="<?php echo $ot; ?>assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
-    <script src="<?php echo $ot; ?>assets/vendor/aos/aos.js"></script>
-    <script src="<?php echo $ot; ?>assets/vendor/swiper/swiper-bundle.min.js"></script>
-    <script src="<?php echo $ot; ?>assets/vendor/purecounter/purecounter.js"></script>
-    <script src="<?php echo $ot; ?>assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-    <script src="<?php echo $ot; ?>assets/vendor/glightbox/js/glightbox.min.js"></script>
-    <!-- Template Main JS File -->
-    <script src="<?php echo $ot; ?>assets/js/main.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+</script>
+
+<!-- Vendor JS Files -->
+<script src="<?php echo $ot; ?>assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+<script src="<?php echo $ot; ?>assets/vendor/aos/aos.js"></script>
+<script src="<?php echo $ot; ?>assets/vendor/swiper/swiper-bundle.min.js"></script>
+<script src="<?php echo $ot; ?>assets/vendor/purecounter/purecounter.js"></script>
+<script src="<?php echo $ot; ?>assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+<script src="<?php echo $ot; ?>assets/vendor/glightbox/js/glightbox.min.js"></script>
+<!-- Template Main JS File -->
+<script src="<?php echo $ot; ?>assets/js/main.js"></script>
