@@ -16,6 +16,63 @@ function adress_empty(){
   $verif_mail = $pdo->prepare("INSERT INTO `adress` (`id`, `login`, `bio`, `adress`, `country`, `street`, `postal_code`, `phone_area`, `phone_number`, `date_of_birth`) VALUES (NULL, ?, '', '', '', '', '', '', '', '')");
   $verif_mail->execute(array($_SESSION['login']));
 }
+//function update password security
+function update_profile_pass(){
+  $pdo = pdoConnexion();
+  $old_pass = md5($_POST['old-pass']);
+  $new_pass = md5($_POST['new-pass']);
+  $con_pass = md5($_POST['con-pass']);
+  $pass = $pdo->prepare("SELECT login from users where password=? limit 1 ");
+  $pass->execute(array($old_pass));
+  $fpass = $pass->fetchAll();  
+  if(count($fpass) > 0){
+    if($old_pass == $new_pass){
+      header("Refresh:1");
+      header("location: profile_settings.php?error=pass_same");
+    }elseif($new_pass != $con_pass){
+      header("Refresh:1");
+      header("location: profile_settings.php?error=pass_not_match");
+     
+    }else{
+      $req = $pdo->prepare("UPDATE users SET password=? WHERE login = ?");
+      $req->execute(array($con_pass,$fpass[0]['login']));
+      header("Refresh:1");
+    }
+  }else{
+    header("Refresh:1");
+    header("location: profile_settings.php?error=pass_old_not_same");
+  }
+}
+
+//function update data profile information
+function update_profile_info(){
+  $pdo = pdoConnexion();
+  $name = $_POST['name'];
+  $username = $_POST['username'];
+  $req = $pdo->prepare("UPDATE users SET name = ?, username= ? WHERE login = ?");
+  $req->execute(array($name,$username,$_SESSION['login']));
+  $bio = $_POST['bio'];
+  $req = $pdo->prepare("UPDATE adress SET bio=? WHERE login = ?");
+  $req->execute(array($bio,$_SESSION['login']));
+  header("Refresh:1");
+}
+
+//function update data profile adress
+function update_profile_adress(){
+  $pdo = pdoConnexion();
+  $adress =  $_POST['location'];
+  $country = $_POST['country'];
+  $street =  $_POST['street'];
+  $postal_code =  $_POST['postal_code'];
+  $phone_area =str_replace(' ', '',$_POST['phone_area']);
+  $date_of_birth = "test";
+  $phone_number = str_replace(' ', '',$_POST['phone_area']);
+  $phone_number .= $_POST['phone_number'];
+  $number = str_replace(' ', '',$phone_number);
+  $req = $pdo->prepare("UPDATE adress SET adress=?,country=?,street=?,postal_code=?,phone_area=?,phone_number=?,date_of_birth=? WHERE login = ?");
+  $req->execute(array($adress,$country,$street,$postal_code,$phone_area,$number,$date_of_birth,$_SESSION['login']));
+  header("Refresh:1");
+}
 
 //function for notif confirmation email
 function confirme(){

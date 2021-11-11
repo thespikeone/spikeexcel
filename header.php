@@ -26,6 +26,8 @@ if($page_name != $index){
 <link href="<?php echo $ot; ?>assets/vendor/remixicon/remixicon.css" rel="stylesheet">
 <link href="<?php echo $ot; ?>assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 <link href="<?php echo $ot; ?>assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+<script src="<?php echo $ot;?>assets/vendor/bs4-toast.js"></script>
+<link href="<?php echo $ot; ?>assets/vendor/bs4Toast.css" rel="stylesheet" >
 <!-- Template Main CSS File -->
 <link href="<?php echo $ot; ?>assets/css/style.css" rel="stylesheet">
 

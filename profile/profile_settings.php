@@ -13,14 +13,25 @@ $user_adress = $adress->fetch();
 if(empty($user_adress)){
     adress_empty();
 }
+if(isset($_POST['profile_info'])){
+  update_profile_info();
+}elseif(isset($_POST['adress'])){
+  update_profile_adress();
+}elseif(isset($_POST['chpassword'])){
+  update_profile_pass();
+}
+
+
 
 
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
- 
+
     <title>Profile settings </title>
     <link rel="icon" type="image/png" href="../assets/img/logo3.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -100,7 +111,7 @@ if(empty($user_adress)){
               <div class="tab-pane active" id="profile">
                 <h6>YOUR PROFILE INFORMATION</h6>
                 <hr>
-                <form>
+                <form method="POST">
                   <div class="form-group">
                     <label for="fullName">Full Name</label>
                     <input type="text" class="form-control" name="name" value="<?php echo $user_info['name'] ?>" id="fullName" aria-describedby="fullNameHelp" placeholder="Enter your fullname" value="Kenneth Valdez">
@@ -115,56 +126,49 @@ if(empty($user_adress)){
                     <label for="bio">Your Bio</label>
                     <textarea class="form-control autosize" name="bio"  id="bio" placeholder="Write something about you" style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 62px;"><?php echo $user_adress['bio'] ?></textarea>
                   </div>
-                  <div class="form-group">
-                    <label for="url">URL</label>
-                    <input type="text" class="form-control" id="url" placeholder="Enter your website address" value="http://benije.ke/pozzivkij">
-                  </div>
-                  <div class="form-group">
-                    <label for="location">Location</label>
-                    <input type="text" class="form-control" id="location" placeholder="Enter your location" value="Bay Area, San Francisco, CA">
-                  </div>
+                 
                   <div class="form-group small text-muted">
                     All of the fields on this page are optional and can be change at any time, and by filling them out, you're giving us consent to share this data wherever your user profile appears.
                   </div>
-                  <button type="button" class="btn btn-primary">Update Profile</button>
+                  <button type="submit" name="profile_info" class="btn btn-primary">Update Profile</button>
                  
                 </form>
               </div>
               <div class="tab-pane" id="adress">
                 <h6>YOUR ADRESS</h6>
                 <hr>
-                <form>
+                <form method="POST">
                 <div class="form-group">
                     <label for="location">Location</label>
-                    <input type="text" class="form-control" id="location" placeholder="Exemple: Bay Area, San Francisco" value="<?php echo $user_adress['adress'] ?>">
+                    <input type="text" name="location" class="form-control" id="location" placeholder="Exemple: Bay Area, San Francisco" value="<?php echo $user_adress['adress'] ?>">
                   </div>
                   <div class="form-group">
                     <label for="location">Country</label>
-                    <input type="text" class="form-control" id="location" placeholder="Exemple: USA" value="<?php echo $user_adress['country'] ?>">
+                    <input type="text" name="country" class="form-control" id="location" placeholder="Exemple: USA" value="<?php echo $user_adress['country'] ?>">
                   </div>
                   <div class="form-group">
                     <label for="location">Street</label>
-                    <input type="text" class="form-control" id="location" placeholder="Exemple:  942 Smith Beckon" value="<?php echo $user_adress['street'] ?>">
+                    <input type="text" name="street" class="form-control" id="location" placeholder="Exemple:  942 Smith Beckon" value="<?php echo $user_adress['street'] ?>">
                   </div>
                   <div class="form-group">
                     <label for="location">Postal Code</label>
-                    <input type="text" class="form-control" id="location" placeholder="Exemple:  98610" value="<?php echo $user_adress['postal_code'] ?>">
+                    <input type="text" name="postal_code" class="form-control" id="location" placeholder="Exemple:  98610" value="<?php echo $user_adress['postal_code'] ?>">
                   </div>
                   <div class="form-row">
                   <div class="form-group col-md-2">
                         <label for="inputphone_area">Phone Area</label>
-                        <input type="text" placeholder="Exemple: +1"  value="<?php echo "+".$user_adress['phone_area'] ?> " class="form-control" id="inputphone_area">
+                        <input type="text" name="phone_area" placeholder="Exemple: +1"  value="<?php if(!empty($user_adress['phone_area'])){ echo $user_adress['phone_area']; }else{echo "+" . $user_adress['phone_area']; } ?> " class="form-control" id="inputphone_area">
                     </div>
                     <div class="form-group col-md-10">
                         <label for="inputState">Phone Number</label>
-                        <input type="text" placeholder="Exemple: +1"  value="<?php echo $user_adress['phone_area'] ?> " class="form-control" id="inputphone_area">
+                        <input type="text" name="phone_number" placeholder="Exemple: +1"  value="<?php if(!empty($user_adress['phone_number'])){ echo str_replace($user_adress['phone_area'], '',$user_adress['phone_number']); }else{echo "+" . $user_adress['phone_area']; } ?> " class="form-control" id="inputphone_area">
                     </div>
                     
                 </div>
                   <div class="form-group small text-muted">
                     All of the fields on this page are optional and can be change at any time, and by filling them out, you're giving us consent to share this data wherever your user profile appears.
                   </div>
-                  <button type="button" class="btn btn-primary">Update Profile</button>
+                  <button type="submit" name="adress" class="btn btn-primary">Update Adress</button>
                  
                 </form>
               </div>
@@ -179,17 +183,33 @@ if(empty($user_adress)){
                   <button class="btn btn-danger" type="button">Delete Account</button>
                 </form>
               </div>
+              <?php
+              if($_GET['error'] == 'pass_not_match'){
+                echo "<script>bs4Toast.error('Error', 'Your new password and confirm password dont match.');</script>"; 
+              }elseif($_GET['error'] == 'pass_same'){
+                echo "<script>bs4Toast.error('Error', 'Your old password and new are same.');</script>"; 
+              }elseif($_GET['error'] == 'pass_old_not_same'){
+                echo "<script>bs4Toast.error('Error', 'Your old password was incorrect.');</script>"; 
+              }
+              ?>
               <div class="tab-pane" id="security">
                 <h6>SECURITY SETTINGS</h6>
                 <hr>
-                <form>
+                <form method="POST">
                   <div class="form-group">
                     <label class="d-block">Change Password</label>
-                    <input type="text" class="form-control" placeholder="Enter your old password">
-                    <input type="text" class="form-control mt-1" placeholder="New password">
-                    <input type="text" class="form-control mt-1" placeholder="Confirm new password">
+                    <input type="text" name="old-pass" class="form-control" placeholder="Enter your old password" required>
+                    <input type="text" name="new-pass" class="form-control mt-1" placeholder="New password" required>
+                    <input type="text" name="con-pass" class="form-control mt-1" placeholder="Confirm new password" required>
+                    <br>
+                    <button type="submit" name="chpassword" class="btn btn-primary">Update Password</button>
+
+                    
+      
+                   
                   </div>
                 </form>
+            
                 <hr>
                 <form>
                   <div class="form-group">
@@ -298,7 +318,8 @@ if(empty($user_adress)){
       </div>
 
     </div>
-
+   
+ 
 <style type="text/css">
 body{
     margin-top:20px;
