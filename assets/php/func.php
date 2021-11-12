@@ -39,38 +39,29 @@ function upload_profile_photo(){
             if(!is_dir($folder)){
                 mkdir($folder);
             }
-
             $list_extension = array('jpg' => 'image/jpg', 'jpeg' => 'image/jpeg', 'png' => 'image/png', 'gif' => 'image/gif');
             $list_extensionIE = array('jpg' => 'image/pjpg', 'jpeg' => 'image/pjpeg'); //extension autoriser pour internet explorer
             $extension_valid = array('jpg', 'jpeg', 'gif', 'png');
-            
-
             $fichier = basename($_FILES['new_profile_img']['name']);
             $fichier_extension = strtolower(substr(strrchr($fichier, '.'), 1));
             
-                if(in_array($fichier_extension, $extension_valid)){
-
-
+              if(in_array($fichier_extension, $extension_valid)){
                 $fichier = md5(uniqid(rand(), true)) . '.' . $fichier_extension;
                 if(move_uploaded_file($_FILES['new_profile_img']['tmp_name'], $folder . $fichier)){
 
-              
-
-                    $verif_ext = getimagesize($folder . $fichier);
-                  
-
-                    if ($verif_ext['mime'] == $list_extension[$fichier_extension] || $verif_ext['mime'] == $list_extensionIE[$fichier_extension]) {
-                        $req = $pdo->prepare("UPDATE profile_image SET  path=? where login =?");
+                  if(file_exists("../assets/php/avatar/" . $_SESSION['login'] . '/' . $_SESSION['path']) && isset($_SESSION['path'])){
+                    unlink("../assets/php/avatar/" . $_SESSION['login'] . '/' . $_SESSION['path']);
+                }
+                    if ($verif_ext['mime'] == $list_extension[$fichier_extension] || $verif_ext['mime'] == "jpg" || "jpeg" || $verif_ext['mime'] == $list_extensionIE[$fichier_extension]) {
+                      $req = $pdo->prepare("UPDATE profile_image SET  path=? where login =?");
                         $req->execute(array($fichier,  $_SESSION['login']));
                         $_SESSION['path'] = $fichier;
-                        
                         header("Refresh:1");
                         header("location: profile.php?error=profile_avatar1");
                     }else{
                         //echo 'l\'extension n\'est pas valide';
                         header("Refresh:1");
                         header("location: profile.php?error=profile_avatar");
-                       
                     }
                 }else{
                   header("Refresh:1");

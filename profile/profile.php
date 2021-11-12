@@ -69,17 +69,17 @@ if(isset($_POST['social_change'])){
       if(file_exists("../assets/php/avatar/". $_SESSION['login'] . "/" . $_SESSION['path']) && isset($_SESSION['path'])){
    ?>
                                 <img src="<?= "../assets/php/avatar/". $_SESSION['login'] . "/" . $_SESSION['path']; ?>"
-                                    alt="Admin" class="rounded-circle" width="150">
+                                    alt="Admin" class="rounded-circle" id="upload-img" width="150">
 
                                 <?php
       }else{
    ?>
                                 <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin"
-                                    class="rounded-circle" width="150">
+                                    class="rounded-circle" id="upload-img" width="150">
                                 <?php
       }
    ?>
-                                <div class="text-dark small mt-1">Allowed GIF or PNG. </div>
+                                <div class="text-dark small mt-1">Allowed JPG or JPEG or GIF or PNG. </div>
                                 <form action="" method="POST" enctype="multipart/form-data">
 
                                     <div id="yourBtn"
@@ -362,6 +362,11 @@ if(isset($_POST['social_change'])){
         <script>
         function getFile() {
             document.getElementById("upfile").click();
+            $("#upfile").change(function(event) {
+            var x = URL.createObjectURL(event.target.files[0]);
+            $("#upload-img").attr("src", x);
+            console.log(event);
+        });
         }
         </script>
         <style type="text/css">
