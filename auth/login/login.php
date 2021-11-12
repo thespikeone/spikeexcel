@@ -16,6 +16,10 @@ session_start();
             $sel=$pdo->prepare("select * from users where login=? and password=? limit 1");
             $sel->execute(array($login,$pass));
             $user=$sel->fetchAll();
+
+            $sel=$pdo->prepare("select path from profile_image where login=? limit 1");
+            $sel->execute(array($login));
+            $user2=$sel->fetchAll();
             
              /* Stock data on session */
             if (count($user)>0) {
@@ -24,6 +28,7 @@ session_start();
                 $_SESSION["login"]=(strtolower($user[0]["login"]));
                 $_SESSION["password"]=(strtolower($user[0]["password"]));
                 $_SESSION["confirme"]=(strtolower($user[0]["confirme"]));
+                $_SESSION["path"]=(strtolower($user2[0]["path"]));
                 $_SESSION["id"]=(strtolower($user[0]["id"]));
                 $_SESSION["autoriser"]="oui";
 

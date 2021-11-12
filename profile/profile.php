@@ -14,14 +14,21 @@ $social = $pdo->prepare("SELECT * from social where login=? LIMIT 1");
 $social->execute(array($_SESSION['login']));
 $user_social = $social->fetch();
 
+$avatar = $pdo->prepare("SELECT * from profile_image where login=? LIMIT 1");
+$avatar->execute(array($_SESSION['login']));
+$user_avatar = $avatar->fetch();
+
 if(empty($user_adress)){
     adress_empty();
 }elseif(empty($user_social)){
   social_empty();
+}elseif(empty($user_avatar)){
+    avatar_empty();
 }
-
 if(isset($_POST['social_change'])){
   social_add();
+}elseif(isset($_POST['upload_photo'])){
+  upload_profile_photo();
 }
 
 ?>
@@ -58,12 +65,42 @@ if(isset($_POST['social_change'])){
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex flex-column align-items-center text-center">
+                                <?php
+      if(file_exists("../assets/php/avatar/". $_SESSION['login'] . "/" . $_SESSION['path']) && isset($_SESSION['path'])){
+   ?>
+                                <img src="<?= "../assets/php/avatar/". $_SESSION['login'] . "/" . $_SESSION['path']; ?>"
+                                    alt="Admin" class="rounded-circle" width="150">
+
+                                <?php
+      }else{
+   ?>
                                 <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin"
                                     class="rounded-circle" width="150">
+                                <?php
+      }
+   ?>
+                                <div class="text-dark small mt-1">Allowed GIF or PNG. </div>
+                                <form action="" method="POST" enctype="multipart/form-data">
+
+                                    <div id="yourBtn"
+                                        style="height: 50px; width: 100px;border: 1px dashed #BBB; cursor:pointer;"
+                                        onclick="getFile()">Upload new photo</div>
+
+
+                                    <!-- this is your file input tag, so i hide it!-->
+                                    <div style='height: 0px;width:0px; overflow:hidden;'><input id="upfile"
+                                            name="new_profile_img" type="file" value="upload" /></div>
+
+                                    <!-- here you can have file submit button or you can write a simple script to upload the file automatically-->
+                                    <button type="submit" style="margin-top: 10px;" name="upload_photo"
+                                        class="btn btn-info">
+                                        upload
+                                    </button>
+                                </form>
                                 <div class="mt-3">
                                     <h4><?php echo $user_info['username'] ?></h4>
                                     <p class="text-muted font-size-sm">
-                                    <?php echo $user_adress['bio'] ?>
+                                        <?php echo $user_adress['bio'] ?>
                                     </p>
                                 </div>
                             </div>
@@ -181,7 +218,7 @@ if(isset($_POST['social_change'])){
                                     #
                                     <?php
                      }else{ 
-                     echo $user_adress['phone_area'] . $user_adress['phone_number'];
+                     echo  $user_adress['phone_number'];
                      } 
                      ?>
                                 </div>
@@ -228,84 +265,91 @@ if(isset($_POST['social_change'])){
                 <div class="modal-body">
                     <div class="card mt-3">
                         <ul class="list-group list-group-flush">
-                          <form action="" method="POST">
-                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round"
-                                        class="feather feather-globe mr-2 icon-inline">
-                                        <circle cx="12" cy="12" r="10"></circle>
-                                        <line x1="2" y1="12" x2="22" y2="12"></line>
-                                        <path
-                                            d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
-                                        </path>
-                                    </svg>Website</h6>
-                                <div class="form-group col-md-3">
+                            <form action="" method="POST">
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                    <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="feather feather-globe mr-2 icon-inline">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                                            <path
+                                                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                                            </path>
+                                        </svg>Website</h6>
+                                    <div class="form-group col-md-3">
 
-                                    <input type="text" name="website" placeholder="<?php echo $user_social['website'] ?>" maxlength="20" class="form-control" >
-                                </div>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round"
-                                        class="feather feather-github mr-2 icon-inline">
-                                        <path
-                                            d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
-                                        </path>
-                                    </svg>Github</h6>
-                                <div class="form-group col-md-3">
-
-                                    <input type="text" placeholder="<?php echo $user_social['github'] ?>" name="github" maxlength="15" class="form-control" >
-                                </div>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round"
-                                        class="feather feather-twitter mr-2 icon-inline text-info">
-                                        <path
-                                            d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z">
-                                        </path>
-                                    </svg>Twitter</h6>
-                                <div class="col-auto">
-                                    <div class="input-group mb-1">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text">@</div>
-                                        </div>
-                                        <input type="text" name="twitter" placeholder="<?php echo $user_social['twitter'] ?>" class="form-control" maxlength="15" id="inlineFormInputGroup"
-                                            >
+                                        <input type="text" name="website"
+                                            placeholder="<?php echo $user_social['website'] ?>" maxlength="20"
+                                            class="form-control">
                                     </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round"
-                                        class="feather feather-instagram mr-2 icon-inline text-danger">
-                                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                                    </svg>Instagram</h6>
-                                <div class="form-group col-md-3">
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                    <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="feather feather-github mr-2 icon-inline">
+                                            <path
+                                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                                            </path>
+                                        </svg>Github</h6>
+                                    <div class="form-group col-md-3">
 
-                                    <input type="text" name="instagram" placeholder="<?php echo $user_social['instagram'] ?>" maxlength="15" class="form-control" >
-                                </div>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round"
-                                        class="feather feather-facebook mr-2 icon-inline text-primary">
-                                        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z">
-                                        </path>
-                                    </svg>Facebook</h6>
-                                <div class="form-group col-md-3">
+                                        <input type="text" placeholder="<?php echo $user_social['github'] ?>"
+                                            name="github" maxlength="15" class="form-control">
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                    <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="feather feather-twitter mr-2 icon-inline text-info">
+                                            <path
+                                                d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z">
+                                            </path>
+                                        </svg>Twitter</h6>
+                                    <div class="col-auto">
+                                        <div class="input-group mb-1">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">@</div>
+                                            </div>
+                                            <input type="text" name="twitter"
+                                                placeholder="<?php echo $user_social['twitter'] ?>" class="form-control"
+                                                maxlength="15" id="inlineFormInputGroup">
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                    <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="feather feather-instagram mr-2 icon-inline text-danger">
+                                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                                        </svg>Instagram</h6>
+                                    <div class="form-group col-md-3">
 
-                                    <input type="text" placeholder="<?php echo $user_social['facebook'] ?>" name="facebook" maxlength="15" class="form-control" >
-                                </div>
+                                        <input type="text" name="instagram"
+                                            placeholder="<?php echo $user_social['instagram'] ?>" maxlength="15"
+                                            class="form-control">
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                    <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="feather feather-facebook mr-2 icon-inline text-primary">
+                                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z">
+                                            </path>
+                                        </svg>Facebook</h6>
+                                    <div class="form-group col-md-3">
 
-                            </li>
+                                        <input type="text" placeholder="<?php echo $user_social['facebook'] ?>"
+                                            name="facebook" maxlength="15" class="form-control">
+                                    </div>
+
+                                </li>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -315,6 +359,11 @@ if(isset($_POST['social_change'])){
                 </div>
             </div>
         </div>
+        <script>
+        function getFile() {
+            document.getElementById("upfile").click();
+        }
+        </script>
         <style type="text/css">
         body {
             margin-top: 20px;
@@ -351,6 +400,21 @@ if(isset($_POST['social_change'])){
             flex: 1 1 auto;
             min-height: 1px;
             padding: 1rem;
+        }
+
+        .custom-file input[type='file'] {
+            display: none;
+
+        }
+
+        .custom-file label {
+            cursor: pointer;
+            color: #000;
+            text-align: center;
+            display: table;
+            margin: auto;
+            margin-top: 15px;
+            color: #07e60f;
         }
 
         .gutters-sm {

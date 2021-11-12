@@ -22,6 +22,75 @@ function adress_empty(){
   $verif_mail = $pdo->prepare("INSERT INTO `adress` (`id`, `login`, `bio`, `adress`, `country`, `street`, `postal_code`, `phone_area`, `phone_number`, `date_of_birth`) VALUES (NULL, ?, '', '', '', '', '', '', '', '')");
   $verif_mail->execute(array($_SESSION['login']));
 }
+//function for empty avatar database
+function avatar_empty(){
+  $pdo = pdoConnexion();
+ 
+  $verif_avatar = $pdo->prepare("INSERT INTO profile_image (login,path) VALUES (?, ?)");
+  $verif_avatar->execute(array($_SESSION['login'],""));
+}
+//function upload profile image
+function upload_profile_photo(){
+  $pdo = pdoConnexion();
+  extract($_POST); 
+        if(isset($_POST['upload_photo'])){
+            $folder = "../assets/php/avatar/" . $_SESSION['login'] . "/";
+            
+            if(!is_dir($folder)){
+                mkdir($folder);
+            }
+
+            $list_extension = array('jpg' => 'image/jpg', 'jpeg' => 'image/jpeg', 'png' => 'image/png', 'gif' => 'image/gif');
+            $list_extensionIE = array('jpg' => 'image/pjpg', 'jpeg' => 'image/pjpeg'); //extension autoriser pour internet explorer
+            $extension_valid = array('jpg', 'jpeg', 'gif', 'png');
+            
+
+            $fichier = basename($_FILES['new_profile_img']['name']);
+            $fichier_extension = strtolower(substr(strrchr($fichier, '.'), 1));
+            
+                if(in_array($fichier_extension, $extension_valid)){
+
+
+                $fichier = md5(uniqid(rand(), true)) . '.' . $fichier_extension;
+                if(move_uploaded_file($_FILES['new_profile_img']['tmp_name'], $folder . $fichier)){
+
+              
+
+                    $verif_ext = getimagesize($folder . $fichier);
+                  
+
+                    if ($verif_ext['mime'] == $list_extension[$fichier_extension] || $verif_ext['mime'] == $list_extensionIE[$fichier_extension]) {
+                        $req = $pdo->prepare("UPDATE profile_image SET  path=? where login =?");
+                        $req->execute(array($fichier,  $_SESSION['login']));
+                        $_SESSION['path'] = $fichier;
+                        
+                        header("Refresh:1");
+                        header("location: profile.php?error=profile_avatar1");
+                    }else{
+                        //echo 'l\'extension n\'est pas valide';
+                        header("Refresh:1");
+                        header("location: profile.php?error=profile_avatar");
+                       
+                    }
+                }else{
+                  header("Refresh:1");
+                  header("location: profile.php?error=profile_avatar0");
+                }
+
+                header("Refresh:1");
+                header("location: profile.php?succes=profile_avatar");
+            }else{
+              header("Refresh:1");
+              header("location: profile.php?error=profile_avatar2");
+            }
+            
+        }
+  var_dump($_POST);
+  var_dump($_FILES);
+  exit;
+}
+
+
 //function update social media
 function social_add(){
   $pdo = pdoConnexion();

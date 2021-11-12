@@ -9,7 +9,7 @@
     $ip = $_SERVER['REMOTE_ADDR'];
     }
                                                                
-   
+    $ip = "154.244.41.75";
     $details = json_decode(file_get_contents("http://ipinfo.io/{$ip}/json"));
     $timezone = $details->timezone;
     $conutry = $details->country;
